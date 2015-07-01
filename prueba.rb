@@ -3,7 +3,7 @@ class PagosController < ApplicationController
 	require "json"
 	require 'openssl'
 	require 'base64'
-	
+
 	before_action :concatenated, only: [:pago]
 	before_action :hmac_sha256, only: [:pago]
 	before_action :params_kiphu, only: [:pago]
@@ -16,6 +16,7 @@ class PagosController < ApplicationController
 		hash = hmac_sha256(secret, concatena)
 		
 		if params_kiphu[:receiver_id] == receiver_id
+
 			notification_token = params_kiphu[:notification_token]
 			
 			#tengo que reconocer los datos que me envio kiphu
@@ -64,7 +65,11 @@ class PagosController < ApplicationController
 			permit.params(:api_version, :notification_token)
 		end
 
-
+	######################################################################
+	# Este codigo es lo que estoy haciendo en Ruby
+	# El codigo acontinuación es el ejemplo que da kiphu para poder realizar la validacion de un pago vía services. (PHP)
+	# https://khipu.com/page/api-para-integradores#validacion-con-token
+	######################################################################
 
 	# $receiver_id =  '<id de cobrador>';
 	# $secret =  '<id de cobrador>';
